@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
-"""acd d"""
+'''Tx xz x'''
 from pymongo import MongoClient
 
 
-if __name__ == "__main__":
+def print_nginx_request_logs(nginx_collection):
+    '''P xz x'''
+    print('{} logs'.format(nginx_collection.count_documents({})))
+    print('Methods:')
+    methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+    for x in methods:
+        r = len(list(nginx_collection.find({'method': x})))
+        print('\tmethod {}: {}'.format(x, r))
+    status_checks_count = len(list(
+        nginx_collection.find({'method': 'GET', 'path': '/status'})
+    ))
+    print('{} status check'.format(status_checks_count))
+
+
+def run():
+    '''P x x'''
     client = MongoClient('mongodb://127.0.0.1:27017')
-    nginx_logs = client.logs.nginx
-    d = nginx_logs.count_documents({})
-    g = nginx_logs.count_documents({'method': 'GET'})
-    p = nginx_logs.count_documents({'method': 'POST'})
-    pu = nginx_logs.count_documents({'method': 'PUT'})
-    pa = nginx_logs.count_documents({'method': 'PATCH'})
-    d = nginx_logs.count_documents({'method': 'DELETE'})
-    gs = nginx_logs.count_documents({'method': 'GET',
-                                             'path': '/status'})
-    print("{} logs".format(d))
-    print("Methods:")
-    print("\tmethod GET: {}".format(g))
-    print("\tmethod POST: {}".format(p))
-    print("\tmethod PUT: {}".format(pu))
-    print("\tmethod PATCH: {}".format(pa))
-    print("\tmethod DELETE: {}".format(d))
-    print("{} status check".format(gs))
+    print_nginx_request_logs(client.logs.nginx)
+
+
+if __name__ == '__main__':
+    run()
