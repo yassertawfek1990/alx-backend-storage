@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
-"""d f"""
+'''T d d.'''
 
 
 def top_students(mongo_collection):
-    """s d"""
-    return mongo_collection.aggregate([
-        {
-            "$project":
-                {
-                    "name": "$name",
-                    "averageScore": {"$avg": "$topics.score"}
-                }
-        },
-        {
-            "$sort":
-                {
-                    "averageScore": -1
-                }
-        }
-    ])
+    '''P f f'''
+    students = mongo_collection.aggregate(
+        [
+            {
+                '$project': {
+                    '_id': 1,
+                    'name': 1,
+                    'averageScore': {
+                        '$avg': {
+                            '$avg': '$topics.score',
+                        },
+                    },
+                    'topics': 1,
+                },
+            },
+            {
+                '$sort': {'averageScore': -1},
+            },
+        ]
+    )
+    return students
